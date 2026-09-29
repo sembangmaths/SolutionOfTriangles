@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Nota & Simulasi Penyelesaian Segitiga</title>
 <style>
 :root{--bg:#eaf5f2;--card:#fff;--ink:#17403a;--mut:#4d6b66;--acc:#2f9e8a;--blue:#1f6fd1;--org:#d98a00;--line:#cfe6e0;--red:#d6453d;
@@ -11,6 +11,7 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 :root[data-theme="dark"]{--bg:#0f1f1c;--card:#172b27;--ink:#e3f3ef;--mut:#9dbdb6;--acc:#4fc3ad;--blue:#6ab0ff;--org:#f5b942;--line:#28443e;--red:#ff7b72}
 html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
 *{box-sizing:border-box}
+html,body{touch-action:manipulation;overscroll-behavior:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 header{padding:10px 14px 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
 h1{font-size:1.15rem;margin:0;color:var(--acc);line-height:1.2}
@@ -186,6 +187,10 @@ function setT(t){root.dataset.theme=t;tm.textContent=t==='dark'?'☀️':'🌙';
 let sv=null;try{sv=localStorage.getItem('tema')}catch(e){}
 setT(sv||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
 tm.onclick=()=>setT(root.dataset.theme==='dark'?'light':'dark');
+['gesturestart','gesturechange','gestureend'].forEach(e=>document.addEventListener(e,ev=>ev.preventDefault()));
+document.addEventListener('touchmove',ev=>{if(ev.touches.length>1)ev.preventDefault()},{passive:false});
+document.addEventListener('wheel',ev=>{if(ev.ctrlKey)ev.preventDefault()},{passive:false});
+document.addEventListener('keydown',ev=>{if((ev.ctrlKey||ev.metaKey)&&['+','-','=','0'].includes(ev.key))ev.preventDefault()});
 </script>
 </body>
 </html>
