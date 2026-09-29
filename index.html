@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nota & Simulasi Penyelesaian Segitiga</title>
+<style>
+:root{--bg:#eaf5f2;--card:#fff;--ink:#17403a;--mut:#4d6b66;--acc:#2f9e8a;--blue:#1f6fd1;--org:#d98a00;--line:#cfe6e0;--red:#d6453d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1f1c;--card:#172b27;--ink:#e3f3ef;--mut:#9dbdb6;--acc:#4fc3ad;--blue:#6ab0ff;--org:#f5b942;--line:#28443e;--red:#ff7b72}}
+:root[data-theme="dark"]{--bg:#0f1f1c;--card:#172b27;--ink:#e3f3ef;--mut:#9dbdb6;--acc:#4fc3ad;--blue:#6ab0ff;--org:#f5b942;--line:#28443e;--red:#ff7b72}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:10px 14px 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+h1{font-size:1.15rem;margin:0;color:var(--acc);line-height:1.2}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:1 1 100%}
+@media(min-width:700px){.top{flex:0 0 auto}}
+#tm{border:1px solid var(--line);background:var(--card);border-radius:50%;width:40px;height:40px;font-size:1.15rem;cursor:pointer;flex:none;padding:0}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 16px;border-radius:14px;font:inherit;font-weight:700;line-height:1.2;cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+nav button .en{color:inherit;opacity:.85;font-size:.72rem;font-weight:400}
+main{flex:1;overflow:auto;padding:12px 14px 20px}
+.tab{display:none;gap:12px;grid-template-columns:1fr}
+.tab.on{display:grid}
+@media(min-width:900px){.tab.on.two{grid-template-columns:minmax(300px,2fr) 3fr;align-items:start}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+h2{margin:0 0 6px;font-size:1.3rem;line-height:1.25}
+h3{margin:12px 0 4px;font-size:1rem;color:var(--acc);line-height:1.3}
+.en{display:block;font-style:italic;font-weight:400;color:var(--mut);font-size:.92em}
+h2 .en{font-size:.8em}
+.m{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.15em}
+.m i{color:var(--blue)}.m b{color:var(--org)}
+.fr{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 3px}
+.fr>span:first-child{border-bottom:1px solid currentColor;padding:0 4px}
+.box{background:var(--bg);border-radius:10px;padding:10px 12px;margin:8px 0;overflow-x:auto}
+.fg{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:700px){.fg{grid-template-columns:repeat(2,1fr)}}
+.tag{display:inline-block;background:var(--org);color:#000;border-radius:6px;padding:0 8px;font-size:.8rem;font-weight:700;margin-bottom:4px}
+.sl{display:grid;grid-template-columns:2.6em 1fr 3.4em;gap:8px;align-items:center;margin:6px 0}
+.sl input{width:100%;accent-color:var(--acc);height:28px}
+.sl output{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+#hs,#as{width:100%;height:min(58vh,480px);display:block;background:var(--bg);border-radius:10px}
+mjx-container{max-width:100%}
+.ok{color:var(--acc);font-weight:700}.no{color:var(--red);font-weight:700}
+ul{padding-left:1.2em;margin:4px 0}li{margin-bottom:4px}
+</style>
+<script>window.MathJax={tex:{macros:{bl:["\\textcolor[RGB]{59,130,246}{#1}",1],og:["\\textcolor[RGB]{224,138,0}{#1}",1]}},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+</head>
+<body>
+<header><div class="top"><h1>📐 Penyelesaian Segitiga<span class="en">Solution of Triangles</span></h1><button id="tm" aria-label="Tukar mod cerah/gelap"></button></div>
+<nav>
+<button class="on" data-t="formula">Formula<span class="en">Formulae</span></button>
+<button data-t="heron">Heron<span class="en">Heron's Formula</span></button>
+<button data-t="amb">Kes Ambiguiti<span class="en">Ambiguous Cases</span></button>
+</nav></header>
+<main>
+
+<section id="formula" class="tab on">
+<div class="fg">
+<div class="card"><h2>Petua Sin (Silang-silang)<span class="en">Sine Rule (Cross)</span></h2>
+<div class="box">\(\displaystyle\frac{\bl{a}}{\sin\bl{A}}=\frac{\og{b}}{\sin\og{B}}\)</div>
+<div>Guna bila ada sepasang sisi dan sudut bertentangan yang diketahui.<span class="en">Use when a side and its opposite angle are known.</span></div></div>
+<div class="card"><h2>Petua Kosinus (Bunga)<span class="en">Cosine Rule (Flower)</span></h2>
+<div class="box">\(\og{c}^2=\bl{a}^2+\bl{b}^2-2\bl{a}\bl{b}\cos\og{\theta}\)</div>
+<div>θ ialah sudut yang dikepit oleh sisi <i>a</i> dan <i>b</i> (bertentangan dengan <i>c</i>). Guna bila diberi 2 sisi + sudut kepit, atau 3 sisi.<span class="en">θ is the angle between sides a and b (opposite c). Use when given 2 sides + the included angle, or all 3 sides.</span></div></div>
+<div class="card"><h2>1 sudut dikepit 2 sisi<span class="en">1 angle between 2 sides</span></h2>
+<div class="box">\(\text{Luas}=\dfrac{1}{2}\bl{a}\bl{b}\sin\og{\theta}\)<span class="en">Area</span></div>
+<div>Sudut θ mesti di antara dua sisi yang diberi.<span class="en">θ must lie between the two given sides.</span></div></div>
+<div class="card"><h2>Heron</h2>
+<div class="box">\(s=\dfrac{a+b+c}{2}\)<br>\(\text{Luas}=\sqrt{s(s-a)(s-b)(s-c)}\)<span class="en">Area</span></div>
+<div>Semua sisi diberi<span class="en">All sides are given</span></div></div>
+</div>
+</section>
+
+<section id="heron" class="tab two">
+<div class="card">
+<h2>Heron<span class="en">Heron's Formula</span></h2>
+<div>Semua sisi diberi<span class="en">All sides are given</span></div>
+<div class="box">\(s=\dfrac{a+b+c}{2}\)<br>\(\text{Luas}=\sqrt{s(s-a)(s-b)(s-c)}\)<span class="en">Area</span></div>
+<h3>Cara guna<span class="en">How to use</span></h3>
+<ul>
+<li>Cari <i>s</i> (setengah perimeter) dahulu.<span class="en">Find s (the semi-perimeter) first.</span></li>
+<li>Gantikan ke dalam formula, kemudian punca kuasa dua.<span class="en">Substitute into the formula, then take the square root.</span></li>
+<li>Syarat segitiga sah: jumlah dua sisi mesti lebih besar daripada sisi ketiga.<span class="en">Valid triangle: the sum of any two sides must exceed the third.</span></li>
+</ul>
+<h3>Contoh (6, 7, 9 cm)<span class="en">Example (6, 7, 9 cm)</span></h3>
+<div class="box">\(s=\dfrac{7+6+9}{2}=11\)<br>\(\text{Luas}=\sqrt{11(11-7)(11-6)(11-9)}\)<br>\(=\sqrt{11(4)(5)(2)}=\sqrt{440}\approx 20.98\ \text{cm}^2\)<span class="en">Area ≈ 20.98 cm²</span></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Simulasi: ubah sisi<span class="en">Simulation: change the sides</span></h3>
+<div class="sl"><span>a</span><input type="range" id="ha" min="1" max="15" step="0.5" value="7"><output></output></div>
+<div class="sl"><span>b</span><input type="range" id="hb" min="1" max="15" step="0.5" value="6"><output></output></div>
+<div class="sl"><span>c</span><input type="range" id="hc" min="1" max="15" step="0.5" value="9"><output></output></div>
+<svg id="hs" viewBox="0 0 10 10"></svg>
+<div id="hi" class="box m"></div>
+</div>
+</section>
+
+<section id="amb" class="tab two">
+<div class="card">
+<h2>Kes Ambiguiti<span class="en">Ambiguous Cases</span></h2>
+<span class="tag">2 fix, 1 change</span>
+<h3>Diberi 3 info (SSA)<span class="en">Given 3 info (SSA)</span></h3>
+<ul>
+<li>Lakarkan sudut<span class="en">Sketch the angle</span></li>
+<li>Lakarkan sisi yang berkait dengan sudut<span class="en">Sketch the side corresponding to the angle</span></li>
+<li>Lakarkan sisi yang satu lagi<span class="en">Sketch the other side</span></li>
+</ul>
+<div class=\"box\">\(CB=C'B'\qquad AC=A'C'\qquad \angle CAB=\angle C'A'B'\)</div>
+<div>Tetapkan sudut A dan sisi AC (2 fix), ubah panjang CB (1 change). Busur berpusat C boleh memotong garis AB pada dua titik.<span class="en">Fix angle A and side AC (2 fix), change the length of CB (1 change). The arc centred at C can cut line AB at two points.</span></div>
+<h3>Diberi 2 info<span class="en">Given 2 info</span></h3>
+<ul>
+<li>Panjangkan sisi<span class="en">Extend the sides</span></li>
+<li>Ubah kedudukan sudut<span class="en">Change the position of the angle</span></li>
+</ul>
+<div>Titik B′ terletak pada garis AB.<span class="en">Point B′ lies on line AB.</span></div>
+<div class=\"box\">\(CB=C'B'\;\Rightarrow\;\sin\angle ABC=\sin\angle A'B'C'\)<br>\(\angle AB'C=180^\circ-\angle ABC\)</div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Simulasi: ubah CB<span class="en">Simulation: change CB</span></h3>
+<div class="sl"><span>∠A</span><input type="range" id="aA" min="15" max="75" step="1" value="35"><output></output></div>
+<div class="sl"><span>AC</span><input type="range" id="ab" min="3" max="10" step="0.5" value="8"><output></output></div>
+<div class="sl"><span>CB</span><input type="range" id="aa" min="1" max="10" step="0.1" value="6"><output></output></div>
+<svg id="as" viewBox="-1 -10.5 22 11.5"></svg>
+
+</div>
+</section>
+
+</main>
+<script>
+const $=id=>document.getElementById(id), R=Math.PI/180, f=(x,d=2)=>(+x).toFixed(d);
+const en=t=>`<span class="en">${t}</span>`;
+const tx=el=>{if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([el]).catch(()=>{})};
+const n=x=>String(+(+x).toFixed(2));
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id===b.dataset.t));
+ document.querySelector('main').scrollTop=0;});
+function bind(ids,fn){ids.forEach(i=>$(i).oninput=fn);}
+function label(x,y,t,fs,c){return `<text x="${x}" y="${y}" font-size="${fs}" fill="${c||'var(--ink)'}" text-anchor="middle" font-weight="700">${t}</text>`}
+
+function heron(){
+ const a=+$('ha').value,b=+$('hb').value,c=+$('hc').value;
+ ['ha','hb','hc'].forEach(i=>$(i).nextElementSibling.textContent=$(i).value);
+ const s=(a+b+c)/2, v=a+b>c&&a+c>b&&b+c>a;
+ if(!v){$('hs').innerHTML='';$('hi').innerHTML='<span class="no">Bukan segitiga sah: jumlah dua sisi mesti > sisi ketiga.</span>'+en('Not a valid triangle: two sides must sum to more than the third.');return;}
+ const A=Math.sqrt(s*(s-a)*(s-b)*(s-c));
+ const cx=(b*b+c*c-a*a)/(2*c), cy=Math.sqrt(Math.max(b*b-cx*cx,0));
+ const minx=Math.min(0,cx),maxx=Math.max(c,cx),big=Math.max(maxx-minx,cy),m=big*.14,fs=big*.06;
+ $('hs').setAttribute('viewBox',`${minx-m} ${-cy-m} ${maxx-minx+2*m} ${cy+2*m}`);
+ $('hs').innerHTML=`<polygon points="0,0 ${c},0 ${cx},${-cy}" fill="var(--acc)" fill-opacity=".18" stroke="var(--acc)" stroke-width="3" vector-effect="non-scaling-stroke"/>`+
+ label(c/2,fs*1.3,'c = '+c,fs,'var(--blue)')+label((c+cx)/2+fs*1.6,-cy/2,'a = '+a,fs,'var(--blue)')+label(cx/2-fs*1.6,-cy/2,'b = '+b,fs,'var(--blue)')+
+ label((c+cx)/3,-cy/3,'Luas / Area',fs*.8,'var(--org)');
+ const Pr=s*(s-a)*(s-b)*(s-c);
+ $('hi').innerHTML=String.raw`\(s=\dfrac{${n(a)}+${n(b)}+${n(c)}}{2}=${n(s)}\)<br>\(\text{Luas}=\sqrt{${n(s)}(${n(s)}-${n(a)})(${n(s)}-${n(b)})(${n(s)}-${n(c)})}\)<br>\(=\sqrt{${n(s)}(${n(s-a)})(${n(s-b)})(${n(s-c)})}=\sqrt{${n(Pr)}}\approx ${f(A)}\ \text{unit}^2\)`+en(`Area ≈ ${f(A)} unit²`);
+ tx($('hi'));
+}
+bind(['ha','hb','hc'],heron);heron();
+
+function amb(){
+ const th=+$('aA').value,b=+$('ab').value,a=+$('aa').value;
+ ['aA','ab','aa'].forEach(i=>$(i).nextElementSibling.textContent=$(i).value+(i=='aA'?'°':''));
+ const cxp=b*Math.cos(th*R), h=b*Math.sin(th*R), P=(x,y)=>`${x},${-y}`;
+ let out=`<line x1="0" y1="0" x2="21" y2="0" stroke="var(--mut)" stroke-dasharray=".3 .3" stroke-width="2" vector-effect="non-scaling-stroke"/>
+ <circle cx="${cxp}" cy="${-h}" r="${a}" fill="none" stroke="var(--mut)" stroke-dasharray=".25 .25" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+ <line x1="0" y1="0" x2="${cxp}" y2="${-h}" stroke="var(--ink)" stroke-width="3" vector-effect="non-scaling-stroke"/>`;
+ let msg='',pts=[];
+ if(a<h-.06) msg='<span class="no">\\(CB\\lt b\\sin A\\) → tiada segitiga (busur tak sampai garis AB).</span>'+en('No triangle (the arc does not reach line AB).');
+ else{
+  const d=Math.sqrt(Math.max(a*a-h*h,0)), x1=cxp+d, x2=cxp-d;
+  if(d<.05){pts=[x1];msg='<span class="ok">\\(CB=b\\sin A\\) → 1 segitiga (sudut tegak di B).</span>'+en('1 triangle (right angle at B).');}
+  else if(a>=b){pts=[x1];msg='<span class="ok">\\(CB\\ge AC\\) → 1 segitiga sahaja.</span>'+en('Only 1 triangle.');}
+  else{pts=[x2,x1];msg='<span class="ok">\\(b\\sin A\\lt CB\\lt AC\\) → 2 segitiga (kes ambiguiti)!</span>'+en('2 triangles (ambiguous case)!');}
+ }
+ const cols=['var(--org)','var(--acc)'];
+ pts.forEach((x,i)=>{const c=cols[pts.length==1?1:i];
+  out+=`<polygon points="${P(0,0)} ${P(x,0)} ${P(cxp,h)}" fill="${c}" fill-opacity=".2" stroke="${c}" stroke-width="3" vector-effect="non-scaling-stroke"/><circle cx="${x}" cy="0" r=".22" fill="${c}"/>`+label(x,.95,pts.length==2&&i==0?"B′":"B",.8,c);});
+ out+=label(-.4,.9,'A',.8)+label(cxp,-h-.4,'C',.8)+label(3,-.6,th+'°',.7,'var(--mut)');
+ $('as').innerHTML=out;
+}
+bind(['aA','ab','aa'],amb);amb();
+const root=document.documentElement,tm=$('tm');
+function setT(t){root.dataset.theme=t;tm.textContent=t==='dark'?'☀️':'🌙';tm.title=t==='dark'?'Mod cerah / Light mode':'Mod gelap / Dark mode';try{localStorage.setItem('tema',t)}catch(e){}}
+let sv=null;try{sv=localStorage.getItem('tema')}catch(e){}
+setT(sv||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+tm.onclick=()=>setT(root.dataset.theme==='dark'?'light':'dark');
+</script>
+</body>
+</html>
