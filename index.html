@@ -42,7 +42,7 @@ h2 .en{font-size:.8em}
 .sl{display:grid;grid-template-columns:2.6em 1fr 3.4em;gap:8px;align-items:center;margin:6px 0}
 .sl input{width:100%;accent-color:var(--acc);height:28px}
 .sl output{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
-#hs,#as{width:100%;height:min(58vh,480px);display:block;background:var(--bg);border-radius:10px}
+#hs,#as,#ss,#cs,#ls{width:100%;height:min(58vh,480px);display:block;background:var(--bg);border-radius:10px}
 mjx-container{max-width:100%}
 .ok{color:var(--acc);font-weight:700}.no{color:var(--red);font-weight:700}
 ul{padding-left:1.2em;margin:4px 0}li{margin-bottom:4px}
@@ -54,6 +54,9 @@ ul{padding-left:1.2em;margin:4px 0}li{margin-bottom:4px}
 <header><div class="top"><h1>📐 Penyelesaian Segitiga<span class="en">Solution of Triangles</span></h1><button id="tm" aria-label="Tukar mod cerah/gelap"></button></div>
 <nav>
 <button class="on" data-t="formula">Formula<span class="en">Formulae</span></button>
+<button data-t="sin">Sin<span class="en">Sine Rule</span></button>
+<button data-t="cos">Cos<span class="en">Cosine Rule</span></button>
+<button data-t="luas">Luas<span class="en">Area</span></button>
 <button data-t="heron">Heron<span class="en">Heron's Formula</span></button>
 <button data-t="amb">Kes Ambiguiti<span class="en">Ambiguous Cases</span></button>
 </nav></header>
@@ -73,6 +76,61 @@ ul{padding-left:1.2em;margin:4px 0}li{margin-bottom:4px}
 <div class="card"><h2>Heron</h2>
 <div class="box">\(s=\dfrac{a+b+c}{2}\)<br>\(\text{Luas}=\sqrt{s(s-a)(s-b)(s-c)}\)<span class="en">Area</span></div>
 <div>Semua sisi diberi<span class="en">All sides are given</span></div></div>
+</div>
+</section>
+
+<section id="sin" class="tab two">
+<div class="card">
+<h2>Petua Sin (Silang-silang)<span class="en">Sine Rule (Cross)</span></h2>
+<div class="box">\(\displaystyle\frac{\bl{a}}{\sin\bl{A}}=\frac{\og{b}}{\sin\og{B}}\)</div>
+<div>Guna bila ada sepasang sisi dan sudut bertentangan yang diketahui.<span class="en">Use when a side and its opposite angle are known.</span></div>
+<h3>Cari sisi<span class="en">Find a side</span></h3>
+<div class="box">\(b=\dfrac{a\sin B}{\sin A}\)</div>
+<h3>Cari sudut<span class="en">Find an angle</span></h3>
+<div class="box">\(\sin B=\dfrac{b\sin A}{a}\)</div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Simulasi: ubah sudut dan sisi<span class="en">Simulation: change the angles and side</span></h3>
+<div class="sl"><span>∠A</span><input type="range" id="sA" min="10" max="120" step="1" value="40" data-u="°"><output></output></div>
+<div class="sl"><span>∠B</span><input type="range" id="sB" min="10" max="120" step="1" value="60" data-u="°"><output></output></div>
+<div class="sl"><span>a</span><input type="range" id="sa" min="1" max="15" step="0.5" value="7"><output></output></div>
+<svg id="ss" viewBox="0 0 10 10"></svg>
+<div id="si" class="box"></div>
+</div>
+</section>
+
+<section id="cos" class="tab two">
+<div class="card">
+<h2>Petua Kosinus (Bunga)<span class="en">Cosine Rule (Flower)</span></h2>
+<div class="box">\(\og{c}^2=\bl{a}^2+\bl{b}^2-2\bl{a}\bl{b}\cos\og{\theta}\)</div>
+<div>θ ialah sudut yang dikepit oleh sisi <i>a</i> dan <i>b</i> (bertentangan dengan <i>c</i>). Guna bila diberi 2 sisi + sudut kepit, atau 3 sisi.<span class="en">θ is the angle between sides a and b (opposite c). Use when given 2 sides + the included angle, or all 3 sides.</span></div>
+<h3>Cari sudut<span class="en">Find an angle</span></h3>
+<div class="box">\(\cos\theta=\dfrac{a^2+b^2-c^2}{2ab}\)</div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Simulasi: ubah sisi dan sudut<span class="en">Simulation: change the sides and angle</span></h3>
+<div class="sl"><span>a</span><input type="range" id="ca" min="1" max="15" step="0.5" value="7"><output></output></div>
+<div class="sl"><span>b</span><input type="range" id="cb" min="1" max="15" step="0.5" value="6"><output></output></div>
+<div class="sl"><span>θ</span><input type="range" id="ct" min="10" max="170" step="1" value="60" data-u="°"><output></output></div>
+<svg id="cs" viewBox="0 0 10 10"></svg>
+<div id="ci" class="box"></div>
+</div>
+</section>
+
+<section id="luas" class="tab two">
+<div class="card">
+<h2>Luas<span class="en">Area</span></h2>
+<div>1 sudut dikepit 2 sisi<span class="en">1 angle between 2 sides</span></div>
+<div class="box">\(\text{Luas}=\dfrac{1}{2}\bl{a}\bl{b}\sin\og{\theta}\)<span class="en">Area</span></div>
+<div>Sudut θ mesti di antara dua sisi yang diberi.<span class="en">θ must lie between the two given sides.</span></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Simulasi: ubah sisi dan sudut<span class="en">Simulation: change the sides and angle</span></h3>
+<div class="sl"><span>a</span><input type="range" id="la" min="1" max="15" step="0.5" value="7"><output></output></div>
+<div class="sl"><span>b</span><input type="range" id="lb" min="1" max="15" step="0.5" value="6"><output></output></div>
+<div class="sl"><span>θ</span><input type="range" id="lt" min="10" max="170" step="1" value="60" data-u="°"><output></output></div>
+<svg id="ls" viewBox="0 0 10 10"></svg>
+<div id="li" class="box"></div>
 </div>
 </section>
 
@@ -182,6 +240,46 @@ function amb(){
  $('as').innerHTML=out;
 }
 bind(['aA','ab','aa'],amb);amb();
+
+function outs(ids){ids.forEach(i=>{const e=$(i);e.nextElementSibling.textContent=e.value+(e.dataset.u||'')})}
+function drawTri(id,c,cx,cy,l){
+ const P={A:[0,0],B:[c,0],C:[cx,-cy]},xs=[0,c,cx],minx=Math.min(...xs),maxx=Math.max(...xs);
+ const big=Math.max(maxx-minx,cy),m=big*.2,fs=big*.06,G=[(c+cx)/3,-cy/3];
+ const off=(p,k,sg)=>{const dx=sg*(p[0]-G[0]),dy=sg*(p[1]-G[1]),d=Math.hypot(dx,dy)||1;return [p[0]+dx/d*k,p[1]+dy/d*k+fs*.35]};
+ const mid=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2],T=(p,t,co,k)=>label(p[0],p[1],t,k||fs,co);
+ $(id).setAttribute('viewBox',`${minx-m} ${-cy-m} ${maxx-minx+2*m} ${cy+2*m}`);
+ let o=`<polygon points="${P.A} ${P.B} ${P.C}" fill="var(--acc)" fill-opacity=".18" stroke="var(--acc)" stroke-width="3" vector-effect="non-scaling-stroke"/>`;
+ ['A','B','C'].forEach(v=>{o+=T(off(P[v],fs*1.3,1),v,'var(--ink)');if(l[v])o+=T(off(P[v],fs*3.4,-1),l[v],'var(--org)',fs*.85)});
+ [['a',P.B,P.C],['b',P.A,P.C],['c',P.A,P.B]].forEach(([k,p,q])=>{if(l[k])o+=T(off(mid(p,q),fs*1.8,1),k+' = '+l[k],'var(--blue)')});
+ $(id).innerHTML=o;
+}
+function geo(a,b,t){const c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(t*R));const cx=(b*b+c*c-a*a)/(2*c);return{c,cx,cy:Math.sqrt(Math.max(b*b-cx*cx,0))}}
+function sinSim(){
+ outs(['sA','sB','sa']);
+ const A=+$('sA').value,B=+$('sB').value,a=+$('sa').value;
+ if(A+B>=178){$('ss').innerHTML='';$('si').innerHTML='<span class="no">∠A + ∠B mesti kurang daripada 180°.</span>'+en('∠A + ∠B must be less than 180°.');return}
+ const C=180-A-B,b=a*Math.sin(B*R)/Math.sin(A*R),c=a*Math.sin(C*R)/Math.sin(A*R);
+ drawTri('ss',c,b*Math.cos(A*R),b*Math.sin(A*R),{a:n(a),b:f(b),c:f(c),A:A+'°',B:B+'°',C:C+'°'});
+ $('si').innerHTML=String.raw`\(\dfrac{${n(a)}}{\sin ${A}^\circ}=\dfrac{b}{\sin ${B}^\circ}\)<br>\(b=\dfrac{${n(a)}\sin ${B}^\circ}{\sin ${A}^\circ}=${f(b)}\)<br>\(\angle C=180^\circ-${A}^\circ-${B}^\circ=${C}^\circ\)`;
+ tx($('si'));
+}
+bind(['sA','sB','sa'],sinSim);sinSim();
+function cosSim(){
+ outs(['ca','cb','ct']);
+ const a=+$('ca').value,b=+$('cb').value,t=+$('ct').value,g=geo(a,b,t),c2=a*a+b*b-2*a*b*Math.cos(t*R);
+ drawTri('cs',g.c,g.cx,g.cy,{a:n(a),b:n(b),c:f(g.c),C:t+'°'});
+ $('ci').innerHTML=String.raw`\(c^2=${n(a)}^2+${n(b)}^2-2(${n(a)})(${n(b)})\cos ${t}^\circ\)<br>\(c^2=${f(c2)}\)<br>\(c=\sqrt{${f(c2)}}=${f(g.c)}\)`;
+ tx($('ci'));
+}
+bind(['ca','cb','ct'],cosSim);cosSim();
+function luasSim(){
+ outs(['la','lb','lt']);
+ const a=+$('la').value,b=+$('lb').value,t=+$('lt').value,g=geo(a,b,t),Ar=.5*a*b*Math.sin(t*R);
+ drawTri('ls',g.c,g.cx,g.cy,{a:n(a),b:n(b),C:t+'°'});
+ $('li').innerHTML=String.raw`\(\text{Luas}=\dfrac{1}{2}(${n(a)})(${n(b)})\sin ${t}^\circ=${f(Ar)}\ \text{unit}^2\)`+en(`Area ≈ ${f(Ar)} unit²`);
+ tx($('li'));
+}
+bind(['la','lb','lt'],luasSim);luasSim();
 const root=document.documentElement,tm=$('tm');
 function setT(t){root.dataset.theme=t;tm.textContent=t==='dark'?'☀️':'🌙';tm.title=t==='dark'?'Mod cerah / Light mode':'Mod gelap / Dark mode';try{localStorage.setItem('tema',t)}catch(e){}}
 let sv=null;try{sv=localStorage.getItem('tema')}catch(e){}
